@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compilar ProyectConvert",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "ProyectConvert.cpp",
+        "-o",
+        "ProyectConvert.exe"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Ejecutar ProyectConvert",
+      "type": "shell",
+      "command": ".\\ProyectConvert.exe",
+      "dependsOn": "Compilar ProyectConvert",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "type": "cppbuild",
+      "label": "C/C++: g++.exe compilar archivo activo",
+      "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+      "args": [
+        "-fdiagnostics-color=always",
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Tarea generada por el depurador."
+    }
+  ]
+}
