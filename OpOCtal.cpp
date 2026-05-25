@@ -4,20 +4,19 @@
 #include <cstdarg>
 #include <algorithm>
 using namespace std;
-
 bool validacion(string texto) { //creamos una funcion booleana
     for (int i = 0; i < texto.length(); i++) { // un bucle para revisar cada digito del binario 
-        if (texto[i] != '0' && texto[i] != '1')  //un if para verificar si 0 es diferente a 0?Si , 0 es diferente a 1?No entonces no entra; porque &&ambas tiene que cumplirse
+        if (texto[i] < '0' || texto[i] > '7')  //verificamos si el caracter es menor a '0' o mayor a '7' , si es asi entonces no es un numero octal y entrara al if
         {
             return false;  //detenemos la funcion si entra porque ay un numero que no es 0 y 1
         } 
     }
     return true;
 }
-void sumaBin (string Bin1, string Bin2){ //
-/// IA >>>>>>
+
+void sumaBin (string Bin1, string Bin2){ 
   if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten 0s y 1s" << endl;//mensaje porque introdujo un numero que no es 0 o 1
+    cout << "Solo se permiten numero octales" << endl;//mensaje porque solo se permiten numeros octales
     return;
   }
   while (Bin1.length() < Bin2.length()) { //estos while es para que tengan la misma cantidad de dijitos, porque como ser string y al hacer la operacion 1010 , 10 saldra error
@@ -27,14 +26,14 @@ void sumaBin (string Bin1, string Bin2){ //
       Bin2.insert(0, "0");
   }
   ///////<<<<< ///////////////
-  int carry = 0; //este carry es un contador para los 1 + 1 
+  int carry = 0; //este carry es un contador para los los que pasen de 7 + 1 = 8 , 7 + 2 = 9 , 7 + 3 = 10 ... etc
   vector<int> resultado; //hacemos un vector que es un arrays, para almacenar binarios por binario
   for (int i = Bin1.length() - 1; i >= 0; i--) //recorremos desde el ultimo indice hasta quedar en 0 
   {
     int total = (Bin1[i] - '0') + (Bin2[i] - '0') + carry ; // aqui hacemos la resta de caracteres el '0' = 48 y el '1'=49 ; la resta seria 49-48 = 1;
-    resultado.push_back(total % 2); // sacamod modulo del total , si total tiene suma de 2 su modulo es 0 entonces guardamos el 0.
-    carry = total / 2;  //si el total es 2 dividimos entre 2 = 0, entonces le damos el valor de 0 al carry y continuamos el ciclo
-    // en dado caso si la suma es 3; pasamos el total = 3   y sacamos el modulo %2 , el mod seria 1 entonces lo guardamos en resultado ; como total es 3 dividimos entre 2  = 1 y ese valor guardamos al carry para la siguiente operacion .
+    resultado.push_back(total % 8); // sacamod modulo del total , si total tiene suma de 8 su modulo es 0 entonces guardamos el 0.
+    carry = total / 8;  //si el total es 8 dividimos entre 8 = 1, entonces le damos el valor de 1 al carry y continuamos el ciclo
+    // en dado caso si la suma es 3; pasamos el total = 3   y sacamos el modulo %8 , el mod seria 3 entonces lo guardamos en resultado ; como total es 3 dividimos entre 8  = 0 y ese valor guardamos al carry para la siguiente operacion .
   }
   if (carry ==1){// una vez fuera preguntamos si el que quedo al final del ciclo es 1 o 0  si es 1 entra y lo guardamos en resultado 
     resultado.push_back(carry);//aqui con push back  guardamos
@@ -55,12 +54,12 @@ string Opsuma (string Bin1, string Bin2)
       Bin2.insert(0, "0");
   }
   int carry = 0; //este carry es un contador para los 1 + 1 
-  string resultado; //hacemos un vector que es un arrays, para almacenar binarios por binario
+  string resultado ; //hacemos un vector que es un arrays, para almacenar binarios por binario
   for (int i = Bin1.length() - 1; i >= 0; i--) //recorremos desde el ultimo indice hasta quedar en 0 
   {
     int total = (Bin1[i] - '0') + (Bin2[i] - '0') + carry ; // aqui hacemos la resta de caracteres el '0' = 48 y el '1'=49 ; la resta seria 49-48 = 1;
-    resultado.push_back(total % 2+'0'); // sacamod modulo del total , si total tiene suma de 2 su modulo es 0 entonces guardamos el 0.
-    carry = total / 2 ;  //si el total es 2 dividimos entre 2 = 0, entonces le damos el valor de 0 al carry y continuamos el ciclo
+    resultado.push_back(total % 8 +'0'); // sacamod modulo del total , si total tiene suma de 2 su modulo es 0 entonces guardamos el 0.
+    carry = total / 8 ;  //si el total es 2 dividimos entre 2 = 0, entonces le damos el valor de 0 al carry y continuamos el ciclo
     
     // en dado caso si la suma es 3; pasamos el total = 3   y sacamos el modulo %2 , el mod seria 1 entonces lo guardamos en resultado ; como total es 3 dividimos entre 2  = 1 y ese valor guardamos al carry para la siguiente operacion .
   }
@@ -75,7 +74,7 @@ string Opsuma (string Bin1, string Bin2)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void restaBin (string Bin1, string Bin2){
   if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten 0s y 1s" << endl;//mensaje porque introdujo un numero que no es 0 o 1
+    cout << "Solo se permiten numero octales" << endl;//mensaje porque introdujo un numero octales
     return;
   }
   while (Bin1.length()< Bin2.length())//este cliclo es para aumenetar 0 por delante paraque los binarios estes parejos 
@@ -94,7 +93,7 @@ void restaBin (string Bin1, string Bin2){
     
     if (total< 0) //verificamos si el total es menor a 0 , si el valor es total es 1 entra por else y se guarda pero en caso de que sea tengamos una resta de 0-1 = -1 que seria menor a 0 entonces entra por else
     {
-      resultado.push_back(total+2); //aqui  como el valor es -1 entonces sumamos +2 total = 1; y se guarda con el push back
+      resultado.push_back(total+8); //aqui  como el valor es -1 entonces sumamos +8 total = 7 ; y se guarda con el push back
       borrow = 1; // y aumentamos el contador 1 ya tuvimos un un prestamos
     }
     else //el caso de else cuando el valor es mayor a 0 como 1 o 0 entonces entra 
@@ -123,25 +122,27 @@ void restaBin (string Bin1, string Bin2){
 void multiplicacion (string Bin1,string Bin2)
 { 
   if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten 0s y 1s" << endl;//mensaje porque introdujo un numero que no es 0 o 1
+    cout << "Solo se permiten numero octales" << endl;//mensaje porque introdujo un numero que no es 0 o 1
     return;
     
   }
   string resultado = "0";
   string fila ;
-  for (int i = Bin2.length()-1; i >=0 ; i--)
+  
+  for (int i = Bin2.length()-1; i >=0 ; i--) //para cada posición i de Bin2 de derecha a izquierda:
   {
-    if ( Bin2[i] =='1') //comparar el caracter con '1'
+    int digito = Bin2[i] - '0'; //extraer digito = Bin2[i] - '0'
+    fila = Bin1; //inicializamos fila con el valor de Bin1
+    for(int k = 0 ; k < Bin2.length() - 1 - i ; k++) //desplazar fila a la izquierda agregando un '0' al final
     {
-      fila = Bin1;
-      for (int j = 0; j < Bin2.length()-1-i; j++)
-      {
-
-        fila.push_back('0');
-
-      }
-      resultado = Opsuma (resultado, fila);
+    fila.push_back('0'); //desplazar fila a la izquierda agregando un '0' al final
     }
+    for (int k = 0; k < digito; k++)
+    {
+      resultado = Opsuma(resultado, fila);
+    }
+    
+    
   }
   cout << "El resultado de la multplicacion es: " << resultado <<endl;  // mensaje
 }
