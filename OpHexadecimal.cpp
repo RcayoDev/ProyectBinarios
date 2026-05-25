@@ -5,66 +5,63 @@
 #include <algorithm>
 using namespace std;
 
-bool validacion(string texto) { //creamos una funcion booleana
-    for (int i = 0; i < texto.length(); i++) { // un bucle para revisar cada digito del binario 
-        if ((texto[i] < '0' || texto[i] > '9') && (texto[i] < 'A' || texto[i] > 'F'))  //un if para verificar si 0 es diferente a 0?Si , 0 es diferente a 1?No entonces no entra; porque &&ambas tiene que cumplirse
+bool validacion(string texto) { // Comprueba que la cadena contiene solo dígitos hexadecimales.
+    for (int i = 0; i < texto.length(); i++) { // Recorre cada carácter en la cadena.
+        if ((texto[i] < '0' || texto[i] > '9') && (texto[i] < 'A' || texto[i] > 'F'))  // Si no está entre 0-9 ni A-F.
         {
-
-            return false;  //detenemos la funcion si entra porque ay un numero que no es 0 a 9 y A a F
+            return false;  // Devuelve falso para caracteres no válidos.
         } 
-        
     }
     return true;
 }
-int charAnum(char c){
-    if (c >= '0' && c <= '9') {
-        return c - '0';
+int charAnum(char c){ // Convierte un carácter hexadecimal a su valor numérico.
+    if (c >= '0' && c <= '9') { // Si el carácter es un dígito del 0 al 9.
+        return c - '0'; // Convierte el carácter a su valor numérico restando '0'.
+    } 
+    if (c >= 'A' && c <= 'F') {// Si el carácter es una letra mayúscula de A a F.
+        return c - 'A' + 10; // Convierte la letra a su valor numérico restando 'A' y sumando 10.
     }
-    if (c >= 'A' && c <= 'F') {
-        return c - 'A' + 10;
+    if (c >= 'a' && c <= 'f') { // Si el carácter es una letra minúscula de a a f.
+        return c - 'a' + 10; // Convierte la letra a su valor numérico restando 'a' y sumando 10.
     }
-    return -1; // Caracter no válido
+    return -1; // Caracter no válido.
 }
-char numAchar(int n){
-    if (n >= 0 && n <= 9) {
-        return n + '0';
+char numAchar(int n){ // Convierte un número entre 0 y 15 a su carácter hexadecimal correspondiente.
+    if (n >= 0 && n <= 9) { // Si el número es entre 0 y 9.
+        return n + '0'; // Convierte el número a su carácter correspondiente sumando '0'.
     }
-    if (n >= 10 && n <= 15) {
-        return n - 10 + 'A';
+    if (n >= 10 && n <= 15) { // Si el número es entre 10 y 15.
+        return n - 10 + 'A'; // Convierte el número a su letra hexadecimal correspondiente restando 10 y sumando 'A'.
     }
-    return '?'; // Número no válido
+    return '?'; // Número no válido.
 }
-void sumaBin (string Bin1, string Bin2){ //
-/// IA >>>>>>
-  if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten numeros hexadecimales" << endl;//mensaje porque introdujo un numero que no es 0 o 1
+void sumaBin (string Bin1, string Bin2){  // Función para sumar dos números hexadecimales representados como cadenas.
+  if (!validacion(Bin1)|| !validacion(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
+    cout << "Solo se permiten numeros hexadecimales" << endl; // Mensaje si hay un carácter inválido.
     return;
   }
-  while (Bin1.length() < Bin2.length()) { //estos while es para que tengan la misma cantidad de dijitos, porque como ser string y al hacer la operacion 1010 , 10 saldra error
+  while (Bin1.length() < Bin2.length()) { // Alinea ambas cadenas con ceros a la izquierda.
       Bin1.insert(0, "0");
   }
   while (Bin2.length() < Bin1.length()) {
       Bin2.insert(0, "0");
   }
-  ///////<<<<< ///////////////
-  int carry = 0; //este carry es un contador para los 1 + 1 
-  vector<char> resultado; //hacemos un vector que es un arrays, para almacenar binarios por binario
+  int carry = 0; // Acarreo para la suma hexadecimal.
+  vector<char> resultado; // Almacena el resultado en orden inverso.
 
-  for (int i = Bin1.length() - 1; i >= 0; i--) //recorremos desde el ultimo indice hasta quedar en 0 
+  for (int i = Bin1.length() - 1; i >= 0; i--) // Recorre caracteres de derecha a izquierda.
   {
-
-    int total = charAnum(Bin1[i]) + charAnum(Bin2[i]) + carry ; // aqui hacemos la resta de caracteres el '0' = 48 y el '1'=49 ; la resta seria 49-48 = 1;
-    resultado.push_back(numAchar(total % 16)); // sacamod modulo del total , si total tiene suma de 16 su modulo es 0 entonces guardamos el 0.
-    carry = total / 16;  //si el total es 16 dividimos entre 16 = 1, entonces le damos el valor de 1 al carry y continuamos el ciclo
-    // en dado caso si la suma es 3; pasamos el total = 3   y sacamos el modulo %16 , el mod seria 3 entonces lo guardamos en resultado ; como total es 3 dividimos entre 16  = 0 y ese valor guardamos al carry para la siguiente operacion .
+    int total = charAnum(Bin1[i]) + charAnum(Bin2[i]) + carry ; // Suma valores hexadecimales y acarreo.
+    resultado.push_back(numAchar(total % 16)); // El dígito resultante es total mod 16.
+    carry = total / 16;  // El acarreo es el cociente entero.
   }
-  if (carry ==1){// una vez fuera preguntamos si el que quedo al final del ciclo es 1 o 0  si es 1 entra y lo guardamos en resultado 
-    resultado.push_back(numAchar(carry));//aqui con push back  guardamos
+  if (carry ==1){ // Si queda acarreo al final, se agrega.
+    resultado.push_back(numAchar(carry));
   }
-  reverse(resultado.begin(), resultado.end());  //una vez tenido todo los digitos lo reverimos lo guardamo de izquierdaa dercha y saldria mal a la hora de leer, entonces revertimos para leerlo de de derecha a izquierda
-  cout << "El resultado de la suma es: "; //mostramos el resultado conforme al orden
-  for (int i = 0; i < resultado.size(); i++) { // mostramos uno por uno conforme al orden
-    cout << resultado[i]; // mostramos de 0 , 1 ,2 ,3 ,4  ... como ya lo tenemos en el orden correcto  
+  reverse(resultado.begin(), resultado.end());  // Invierte el resultado para el orden correcto.
+  cout << "El resultado de la suma es: ";
+  for (int i = 0; i < resultado.size(); i++) { // Imprime cada dígito del resultado.
+    cout << resultado[i]; // Muestra el dígito actual del resultado.
   }
   cout << endl;
 }
@@ -76,100 +73,96 @@ string Opsuma (string Bin1, string Bin2)
   while (Bin2.length() < Bin1.length()) {
       Bin2.insert(0, "0");
   }
-  int carry = 0; //este carry es un contador para los 1 + 1 
-  string resultado; //hacemos un vector que es un arrays, para almacenar binarios por binario
-  for (int i = Bin1.length() - 1; i >= 0; i--) //recorremos desde el ultimo indice hasta quedar en 0 
+  int carry = 0; // Acarreo para la suma hexadecimal.
+  string resultado; // Almacena el resultado como cadena.
+  for (int i = Bin1.length() - 1; i >= 0; i--) // Recorre caracteres de derecha a izquierda.
   {
-    int total = charAnum(Bin1[i]) + charAnum(Bin2[i]) + carry ; // aqui hacemos la resta de caracteres el '0' = 48 y el '1'=49 ; la resta seria 49-48 = 1;
-    resultado.push_back(numAchar(total % 16)); // sacamod modulo del total , si total tiene suma de 16 su modulo es 0 entonces guardamos el 0.
-    carry = total / 16 ;  //si el total es 16 dividimos entre 16 = 1, entonces le damos el valor de 1 al carry y continuamos el ciclo
-    
-    // en dado caso si la suma es 3; pasamos el total = 3   y sacamos el modulo %16 , el mod seria 3 entonces lo guardamos en resultado ; como total es 3 dividimos entre 16  = 0 y ese valor guardamos al carry para la siguiente operacion .
+    int total = charAnum(Bin1[i]) + charAnum(Bin2[i]) + carry ; // Suma valores hexadecimales y acarreo.
+    resultado.push_back(numAchar(total % 16)); // Convierte el dígito resultante a carácter.
+    carry = total / 16 ;  // Calcula el acarreo para la siguiente posición.
   }
-  if (carry ==1){// una vez fuera preguntamos si el que quedo al final del ciclo es 1 o 0  si es 1 entra y lo guardamos en resultado 
-    resultado.push_back(numAchar(carry));//aqui con push back  guardamos
+  if (carry ==1){
+    resultado.push_back(numAchar(carry));
   }
-  reverse(resultado.begin(), resultado.end());  //una vez tenido todo los digitos lo reverimos lo guardamo de izquierdaa dercha y saldria mal a la hora de leer, entonces revertimos para leerlo de de derecha a izquierda
-  return resultado; //mostramos el resultado conforme al orden
+  reverse(resultado.begin(), resultado.end());  // Invierte el resultado para el orden correcto.
+  return resultado;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void restaBin (string Bin1, string Bin2){
-  if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten numeros hexadecimales" << endl;//mensaje porque introdujo un numero que no es 0 o 1
+  if (!validacion(Bin1)|| !validacion(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
+    cout << "Solo se permiten numeros hexadecimales" << endl;
     return;
   }
-  while (Bin1.length()< Bin2.length())//este cliclo es para aumenetar 0 por delante paraque los binarios estes parejos 
+  while (Bin1.length()< Bin2.length()) // Alinea las cadenas con ceros a la izquierda.
   {
-    Bin1.insert(0, "0");//con este insert añadimos los 0, el 0 es para la pocision 0 y el "0" es lo que se introducira 
+    Bin1.insert(0, "0");
   }
   while (Bin2.length()< Bin1.length()) 
   {
     Bin2.insert(0, "0");
   }
-  int borrow = 0; // en la esta el contador lo llamaremos borrow
-  vector<char> resultado ; //creamos un vector donde guardaremos 
-  for (int i = Bin1.length()-1; i >= 0; i--) //
+  int borrow = 0; // Indicador de préstamo en la resta.
+  vector<char> resultado ; // Almacena el resultado en orden inverso.
+  for (int i = Bin1.length()-1; i >= 0; i--)
   {
-    int total = charAnum(Bin1[i]) - charAnum(Bin2[i]) - borrow; //aqui esta la formula del mismo modo que suma 
+    int total = charAnum(Bin1[i]) - charAnum(Bin2[i]) - borrow; // Calcula la resta en base 16.
     
-    if (total< 0) //verificamos si el total es menor a 0 , si el valor es total es 1 entra por else y se guarda pero en caso de que sea tengamos una resta de 0-1 = -1 que seria menor a 0 entonces entra por else
+    if (total < 0) // Si es necesario pedir prestado.
     {
-      resultado.push_back(numAchar(total+16)); //aqui  como el valor es -1 entonces sumamos +16 total = 15; y se guarda con el push back
-      borrow = 1; // y aumentamos el contador 1 ya tuvimos un un prestamos
+      resultado.push_back(numAchar(total + 16)); // Ajusta el resultado sumando 16.
+      borrow = 1; // Marca el préstamo para la siguiente posición.
     }
-    else //el caso de else cuando el valor es mayor a 0 como 1 o 0 entonces entra 
+    else
     {
-      resultado.push_back(numAchar(total));  //aqui se guarda porque es 0 o 1
-      borrow=0; // y seguimos mantenienod el borrow o prestamos
-
+      resultado.push_back(numAchar(total));
+      borrow = 0;
     }
-  } //salimos del bicle 
+  }
   
-  if (borrow ==1) //verificamos si el en el ultimo digito estuvo pidiendo prestamos sin tener de donde 
+  if (borrow ==1) // Si el resultado quedó negativo.
   {
-    cout << "el resultado es negativo,restaste un número mayor"; //el mensaje porque huba resta en negativo como resultado 
+    cout << "el resultado es negativo,restaste un número mayor";
     return ;
   }
   
-  reverse(resultado.begin(), resultado.end()); // invertimos el orden por la misma razon de suma
-  cout << "El resultado de la resta es: ";  // mensaje
-  for (int i = 0; i < resultado.size(); i++) // un for para ir recorrer y mostrar cada digito
+  reverse(resultado.begin(), resultado.end()); // Invierte el resultado para el orden correcto.
+  cout << "El resultado de la resta es: ";
+  for (int i = 0; i < resultado.size(); i++)
   {
-    cout << resultado[i]; //aqui se muestra digito por digito 
+    cout << resultado[i];
   }
   cout << endl;
 }
 
 void multiplicacion (string Bin1,string Bin2)
 { 
-  if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten numeros hexadecimales" << endl;//mensaje porque introdujo un numero que no es 0 o 1
+  if (!validacion(Bin1)|| !validacion(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
+    cout << "Solo se permiten numeros hexadecimales" << endl;
     return;
-    
   }
   string resultado = "0";
   string fila ;
   for (int i = Bin2.length()-1; i >=0 ; i--)
   {
-    int digito = charAnum(Bin2[i]); //extraer digito = Bin2[i] - '0'
-    fila = Bin1; //inicializamos fila con el valor de Bin1
-    for(int k = 0 ; k < Bin2.length() - 1 - i ; k++) //desplazar fila a la izquierda agregando un '0' al final
+    int digito = charAnum(Bin2[i]); // Convierte el carácter hexadecimal a su valor numérico.
+    fila = Bin1; // Inicializa la fila con el valor de Bin1.
+    for(int k = 0 ; k < Bin2.length() - 1 - i ; k++) // Desplaza la fila a la izquierda agregando ceros.
     {
-    fila.push_back('0'); //desplazar fila a la izquierda agregando un '0' al final
+      fila.push_back('0'); // Agrega un cero al final de la fila para el desplazamiento.
     }
-    for (int k = 0; k < digito; k++)
+    for (int k = 0; k < digito; k++) // Suma la fila a sí misma tantas veces como indique el dígito.
     {
-      resultado = Opsuma(resultado, fila);
+      resultado = Opsuma(resultado, fila); // Suma la fila al resultado acumulado utilizando la función de suma hexadecimal.
     }
   }
-  cout << "El resultado de la multplicacion es: " << resultado <<endl;  // mensaje
+  cout << "El resultado de la multplicacion es: " << resultado <<endl; 
 }
 //*******<<<<<< */
 int main(){
   string Bin1, Bin2;
-  int opciones;
+  int opciones; 
   cout << "Seleccione operacion (1=suma, 2=resta, 3=multiplicacion): " << endl;
   cin >> opciones;
   

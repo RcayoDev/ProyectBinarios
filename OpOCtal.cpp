@@ -4,147 +4,141 @@
 #include <cstdarg>
 #include <algorithm>
 using namespace std;
-bool validacion(string texto) { //creamos una funcion booleana
-    for (int i = 0; i < texto.length(); i++) { // un bucle para revisar cada digito del binario 
-        if (texto[i] < '0' || texto[i] > '7')  //verificamos si el caracter es menor a '0' o mayor a '7' , si es asi entonces no es un numero octal y entrara al if
+bool validacion(string texto) { // Comprueba que la cadena contiene solo dígitos octales.
+    for (int i = 0; i < texto.length(); i++) { // Recorre cada carácter de la cadena.
+        if (texto[i] < '0' || texto[i] > '7')  // Verifica si el carácter no está entre 0 y 7.
         {
-            return false;  //detenemos la funcion si entra porque ay un numero que no es 0 y 1
+            return false;  // Devuelve falso si se encuentra un carácter no octal.
         } 
     }
-    return true;
+    return true; // Si no se encuentran caracteres inválidos, devuelve verdadero.
 }
 
 void sumaBin (string Bin1, string Bin2){ 
-  if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten numero octales" << endl;//mensaje porque solo se permiten numeros octales
+  if (!validacion(Bin1)|| !validacion(Bin2)){ // Valida que ambas cadenas sean octales.
+    cout << "Solo se permiten numero octales" << endl; // Mensaje si hay un dígito inválido.
     return;
   }
-  while (Bin1.length() < Bin2.length()) { //estos while es para que tengan la misma cantidad de dijitos, porque como ser string y al hacer la operacion 1010 , 10 saldra error
+  while (Bin1.length() < Bin2.length()) { // Alinea las cadenas con ceros a la izquierda.
       Bin1.insert(0, "0");
   }
   while (Bin2.length() < Bin1.length()) {
       Bin2.insert(0, "0");
   }
-  ///////<<<<< ///////////////
-  int carry = 0; //este carry es un contador para los los que pasen de 7 + 1 = 8 , 7 + 2 = 9 , 7 + 3 = 10 ... etc
-  vector<int> resultado; //hacemos un vector que es un arrays, para almacenar binarios por binario
-  for (int i = Bin1.length() - 1; i >= 0; i--) //recorremos desde el ultimo indice hasta quedar en 0 
+  int carry = 0; // Acumula el acarreo en base octal.
+  vector<int> resultado; // Almacena el resultado en orden inverso.
+  for (int i = Bin1.length() - 1; i >= 0; i--) // Recorre los dígitos de derecha a izquierda.
   {
-    int total = (Bin1[i] - '0') + (Bin2[i] - '0') + carry ; // aqui hacemos la resta de caracteres el '0' = 48 y el '1'=49 ; la resta seria 49-48 = 1;
-    resultado.push_back(total % 8); // sacamod modulo del total , si total tiene suma de 8 su modulo es 0 entonces guardamos el 0.
-    carry = total / 8;  //si el total es 8 dividimos entre 8 = 1, entonces le damos el valor de 1 al carry y continuamos el ciclo
-    // en dado caso si la suma es 3; pasamos el total = 3   y sacamos el modulo %8 , el mod seria 3 entonces lo guardamos en resultado ; como total es 3 dividimos entre 8  = 0 y ese valor guardamos al carry para la siguiente operacion .
+    int total = (Bin1[i] - '0') + (Bin2[i] - '0') + carry ; // Suma dígitos y acarreo.
+    resultado.push_back(total % 8); // El dígito resultante es total mod 8.
+    carry = total / 8;  // El acarreo es total / 8.
+    // Si el total es mayor o igual a 8, se obtiene un acarreo para la siguiente posición.
   }
-  if (carry ==1){// una vez fuera preguntamos si el que quedo al final del ciclo es 1 o 0  si es 1 entra y lo guardamos en resultado 
-    resultado.push_back(carry);//aqui con push back  guardamos
+  if (carry ==1){ // Agrega el último acarreo si existe.
+    resultado.push_back(carry);
   }
-  reverse(resultado.begin(), resultado.end());  //una vez tenido todo los digitos lo reverimos lo guardamo de izquierdaa dercha y saldria mal a la hora de leer, entonces revertimos para leerlo de de derecha a izquierda
-  cout << "El resultado de la suma es: "; //mostramos el resultado conforme al orden
-  for (int i = 0; i < resultado.size(); i++) { // mostramos uno por uno conforme al orden
-    cout << resultado[i]; // mostramos de 0 , 1 ,2 ,3 ,4  ... como ya lo tenemos en el orden correcto  
+  reverse(resultado.begin(), resultado.end());  // Invierte el resultado para mostrarlo en el orden correcto.
+  cout << "El resultado de la suma es: ";
+  for (int i = 0; i < resultado.size(); i++) { // Imprime cada dígito del resultado.
+    cout << resultado[i];
   }
-  cout << endl;
+  cout << endl; // Salto de línea para una salida más clara.
 }
-string Opsuma (string Bin1, string Bin2)
+string Opsuma (string Bin1, string Bin2) // Función auxiliar para sumar sin imprimir el resultado inmediato.
 { 
-    while (Bin1.length() < Bin2.length()) {
-      Bin1.insert(0, "0");
+    while (Bin1.length() < Bin2.length()) { // Alinea las cadenas con ceros a la izquierda.
+      Bin1.insert(0, "0");  
   }
   while (Bin2.length() < Bin1.length()) {
       Bin2.insert(0, "0");
   }
-  int carry = 0; //este carry es un contador para los 1 + 1 
-  string resultado ; //hacemos un vector que es un arrays, para almacenar binarios por binario
-  for (int i = Bin1.length() - 1; i >= 0; i--) //recorremos desde el ultimo indice hasta quedar en 0 
+  int carry = 0; // Acumula el acarreo en base octal.
+  string resultado; // Guarda el resultado como una cadena.
+  for (int i = Bin1.length() - 1; i >= 0; i--) // Recorre de derecha a izquierda.
   {
-    int total = (Bin1[i] - '0') + (Bin2[i] - '0') + carry ; // aqui hacemos la resta de caracteres el '0' = 48 y el '1'=49 ; la resta seria 49-48 = 1;
-    resultado.push_back(total % 8 +'0'); // sacamod modulo del total , si total tiene suma de 2 su modulo es 0 entonces guardamos el 0.
-    carry = total / 8 ;  //si el total es 2 dividimos entre 2 = 0, entonces le damos el valor de 0 al carry y continuamos el ciclo
-    
-    // en dado caso si la suma es 3; pasamos el total = 3   y sacamos el modulo %2 , el mod seria 1 entonces lo guardamos en resultado ; como total es 3 dividimos entre 2  = 1 y ese valor guardamos al carry para la siguiente operacion .
+    int total = (Bin1[i] - '0') + (Bin2[i] - '0') + carry ; // Suma dígitos y acarreo.
+    resultado.push_back(total % 8 +'0'); // Convierte el dígito resultante a carácter.
+    carry = total / 8 ;  // Calcula el acarreo para la siguiente posición.
+    // Si el total es 9 o mayor, se genera un acarreo.
   }
-  if (carry ==1){// una vez fuera preguntamos si el que quedo al final del ciclo es 1 o 0  si es 1 entra y lo guardamos en resultado 
-    resultado.push_back(carry+'0');//aqui con push back  guardamos
+  if (carry ==1){ // Añade el último acarreo si es necesario.
+    resultado.push_back(carry+'0');
   }
-  reverse(resultado.begin(), resultado.end());  //una vez tenido todo los digitos lo reverimos lo guardamo de izquierdaa dercha y saldria mal a la hora de leer, entonces revertimos para leerlo de de derecha a izquierda
-  return resultado; //mostramos el resultado conforme al orden
+  reverse(resultado.begin(), resultado.end());  // Invierte el resultado para el orden correcto.
+  return resultado; // Devuelve la suma como cadena.
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void restaBin (string Bin1, string Bin2){
-  if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten numero octales" << endl;//mensaje porque introdujo un numero octales
+  if (!validacion(Bin1)|| !validacion(Bin2)){ // Valida que ambas cadenas sean octales.
+    cout << "Solo se permiten numero octales" << endl;
     return;
   }
-  while (Bin1.length()< Bin2.length())//este cliclo es para aumenetar 0 por delante paraque los binarios estes parejos 
+  while (Bin1.length()< Bin2.length()) // Alinea con ceros a la izquierda.
   {
-    Bin1.insert(0, "0");//con este insert añadimos los 0, el 0 es para la pocision 0 y el "0" es lo que se introducira 
+    Bin1.insert(0, "0");
   }
   while (Bin2.length()< Bin1.length()) 
   {
     Bin2.insert(0, "0");
   }
-  int borrow = 0; // en la esta el contador lo llamaremos borrow
-  vector<int> resultado ; //creamos un vector donde guardaremos 
-  for (int i = Bin1.length()-1; i >= 0; i--) //
+  int borrow = 0; // Indicador de préstamo en la resta.
+  vector<int> resultado ; // Almacena el resultado en orden inverso.
+  for (int i = Bin1.length()-1; i >= 0; i--)
   {
-    int total = (Bin1[i]-'0') - (Bin2[i]-'0') - borrow; //aqui esta la formula del mismo modo que suma 
+    int total = (Bin1[i]-'0') - (Bin2[i]-'0') - borrow; // Calcula la resta dígito a dígito.
     
-    if (total< 0) //verificamos si el total es menor a 0 , si el valor es total es 1 entra por else y se guarda pero en caso de que sea tengamos una resta de 0-1 = -1 que seria menor a 0 entonces entra por else
+    if (total< 0) // Si se necesita pedir prestado.
     {
-      resultado.push_back(total+8); //aqui  como el valor es -1 entonces sumamos +8 total = 7 ; y se guarda con el push back
-      borrow = 1; // y aumentamos el contador 1 ya tuvimos un un prestamos
+      resultado.push_back(total+8); // Ajusta el valor sumando 8.
+      borrow = 1; // Marca el préstamo.
     }
-    else //el caso de else cuando el valor es mayor a 0 como 1 o 0 entonces entra 
+    else
     {
-      resultado.push_back(total);  //aqui se guarda porque es 0 o 1
-      borrow=0; // y seguimos mantenienod el borrow o prestamos
-
+      resultado.push_back(total);  // Guarda el resultado del dígito.
+      borrow=0; // No hay préstamo pendiente.
     }
-  } //salimos del bicle 
+  }
   
-  if (borrow ==1) //verificamos si el en el ultimo digito estuvo pidiendo prestamos sin tener de donde 
+  if (borrow ==1) // Si el resultado quedó negativo.
   {
-    cout << "el resultado es negativo,restaste un número mayor"; //el mensaje porque huba resta en negativo como resultado 
+    cout << "el resultado es negativo,restaste un número mayor";
     return ;
   }
   
-  reverse(resultado.begin(), resultado.end()); // invertimos el orden por la misma razon de suma
-  cout << "El resultado de la resta es: ";  // mensaje
-  for (int i = 0; i < resultado.size(); i++) // un for para ir recorrer y mostrar cada digito
+  reverse(resultado.begin(), resultado.end()); // Invierte el resultado para el orden correcto.
+  cout << "El resultado de la resta es: ";
+  for (int i = 0; i < resultado.size(); i++)
   {
-    cout << resultado[i]; //aqui se muestra digito por digito 
+    cout << resultado[i];
   }
   cout << endl;
 }
 
 void multiplicacion (string Bin1,string Bin2)
 { 
-  if (!validacion(Bin1)|| !validacion(Bin2)){ //aqui validamos que bin1 y bin2 solo sean 1s y 0s en caso exista un 2 entrara y mandara un mensaje  , || significa que uno  tiene que cumplirse para entrar 
-    cout << "Solo se permiten numero octales" << endl;//mensaje porque introdujo un numero que no es 0 o 1
+  if (!validacion(Bin1)|| !validacion(Bin2)){ // Valida que ambas cadenas sean octales.
+    cout << "Solo se permiten numero octales" << endl;
     return;
-    
   }
   string resultado = "0";
   string fila ;
   
-  for (int i = Bin2.length()-1; i >=0 ; i--) //para cada posición i de Bin2 de derecha a izquierda:
+  for (int i = Bin2.length()-1; i >=0 ; i--) // Para cada dígito de Bin2 de derecha a izquierda.
   {
-    int digito = Bin2[i] - '0'; //extraer digito = Bin2[i] - '0'
-    fila = Bin1; //inicializamos fila con el valor de Bin1
-    for(int k = 0 ; k < Bin2.length() - 1 - i ; k++) //desplazar fila a la izquierda agregando un '0' al final
+    int digito = Bin2[i] - '0'; // Convierte el carácter a número.
+    fila = Bin1; // Inicializa la fila con Bin1.
+    for(int k = 0 ; k < Bin2.length() - 1 - i ; k++) // Desplaza la fila añadiendo ceros.
     {
-    fila.push_back('0'); //desplazar fila a la izquierda agregando un '0' al final
+      fila.push_back('0');
     }
     for (int k = 0; k < digito; k++)
     {
       resultado = Opsuma(resultado, fila);
     }
-    
-    
   }
-  cout << "El resultado de la multplicacion es: " << resultado <<endl;  // mensaje
+  cout << "El resultado de la multplicacion es: " << resultado <<endl;  // Mensaje final.
 }
 //*******<<<<<< */
 int main(){
