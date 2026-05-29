@@ -5,7 +5,7 @@
 #include <algorithm>
 using namespace std;
 
-bool validacion(string texto) { // Comprueba que la cadena contiene solo dígitos hexadecimales.
+bool validacionHexa(string texto) { // Comprueba que la cadena contiene solo dígitos hexadecimales.
     for (int i = 0; i < texto.length(); i++) { // Recorre cada carácter en la cadena.
         if ((texto[i] < '0' || texto[i] > '9') && (texto[i] < 'A' || texto[i] > 'F'))  // Si no está entre 0-9 ni A-F.
         {
@@ -35,8 +35,8 @@ char numAchar(int n){ // Convierte un número entre 0 y 15 a su carácter hexade
     }
     return '?'; // Número no válido.
 }
-void sumaBin (string Bin1, string Bin2){  // Función para sumar dos números hexadecimales representados como cadenas.
-  if (!validacion(Bin1)|| !validacion(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
+void sumaHexa (string Bin1, string Bin2){  // Función para sumar dos números hexadecimales representados como cadenas.
+  if (!validacionHexa(Bin1)|| !validacionHexa(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
     cout << "Solo se permiten numeros hexadecimales" << endl; // Mensaje si hay un carácter inválido.
     return;
   }
@@ -65,7 +65,7 @@ void sumaBin (string Bin1, string Bin2){  // Función para sumar dos números he
   }
   cout << endl;
 }
-string Opsuma (string Bin1, string Bin2)
+string OpsumaHexa (string Bin1, string Bin2)
 { 
     while (Bin1.length() < Bin2.length()) {
       Bin1.insert(0, "0");
@@ -90,8 +90,8 @@ string Opsuma (string Bin1, string Bin2)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void restaBin (string Bin1, string Bin2){
-  if (!validacion(Bin1)|| !validacion(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
+void restaHexa (string Bin1, string Bin2){
+  if (!validacionHexa(Bin1)|| !validacionHexa   (Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
     cout << "Solo se permiten numeros hexadecimales" << endl;
     return;
   }
@@ -136,9 +136,9 @@ void restaBin (string Bin1, string Bin2){
   cout << endl;
 }
 
-void multiplicacion (string Bin1,string Bin2)
+void multiplicacionHexa (string Bin1,string Bin2)
 { 
-  if (!validacion(Bin1)|| !validacion(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
+  if (!validacionHexa(Bin1)|| !validacionHexa(Bin2)){ // Comprueba que ambas cadenas sean hexadecimales válidas.
     cout << "Solo se permiten numeros hexadecimales" << endl;
     return;
   }
@@ -154,13 +154,13 @@ void multiplicacion (string Bin1,string Bin2)
     }
     for (int k = 0; k < digito; k++) // Suma la fila a sí misma tantas veces como indique el dígito.
     {
-      resultado = Opsuma(resultado, fila); // Suma la fila al resultado acumulado utilizando la función de suma hexadecimal.
+      resultado = OpsumaHexa(resultado, fila); // Suma la fila al resultado acumulado utilizando la función de suma hexadecimal.
     }
   }
   cout << "El resultado de la multplicacion es: " << resultado <<endl; 
 }
 //*******<<<<<< */
-int main(){
+int mainHexa(){
   string Bin1, Bin2;
   int opciones; 
   cout << "Seleccione operacion (1=suma, 2=resta, 3=multiplicacion): " << endl;
@@ -173,21 +173,21 @@ int main(){
     cin >> Bin1;
     cout << "Ingrese el segundo binario: " << endl;
     cin >> Bin2;
-    sumaBin(Bin1, Bin2);
+    sumaHexa(Bin1, Bin2);
     break;
   case 2:
     cout << "Ingrese el primer binario: " << endl;
     cin >> Bin1;
     cout << "Ingrese el segundo binario: " << endl;
     cin >> Bin2;
-    restaBin(Bin1, Bin2);
+    restaHexa(Bin1, Bin2);
     break;
   case 3:
     cout << "Ingrese el primer binario: " << endl;
     cin >> Bin1;
     cout << "Ingrese el segundo binario: " << endl;
     cin >> Bin2;
-    multiplicacion(Bin1, Bin2);
+    multiplicacionHexa(Bin1, Bin2);
     break;
   default:
     cout << "Opcion invalida" << endl;

@@ -3,10 +3,11 @@
 #include <vector>
 #include <algorithm>
 #include <cstdarg>
+
 using namespace std;
 
 
-int charAnum(char c){ // Convierte un carácter hexadecimal a su valor numérico.
+int charAnumConvert(char c){ // Convierte un carácter hexadecimal a su valor numérico.
     if (c >= '0' && c <= '9') { // Si el carácter es un dígito del 0 al 9.
         return c - '0'; // Convierte el carácter a su valor numérico restando '0'.
     } 
@@ -18,7 +19,7 @@ int charAnum(char c){ // Convierte un carácter hexadecimal a su valor numérico
     }
     return -1; // Caracter no válido.
 }
-char numAchar(int n){ // Convierte un número entre 0 y 15 a su carácter hexadecimal correspondiente.
+char numAcharConvert(int n){ // Convierte un número entre 0 y 15 a su carácter hexadecimal correspondiente.
     if (n >= 0 && n <= 9) { // Si el número es entre 0 y 9.
         return n + '0'; // Convierte el número a su carácter correspondiente sumando '0'.
     }
@@ -27,7 +28,7 @@ char numAchar(int n){ // Convierte un número entre 0 y 15 a su carácter hexade
     }
     return '?'; // Número no válido.
 }
-bool validacion(string texto) { // Comprueba que la cadena contiene solo dígitos hexadecimales.
+bool validacionConvert(string texto) { // Comprueba que la cadena contiene solo dígitos hexadecimales.
     for (int i = 0; i < texto.length(); i++) { // Recorre cada carácter en la cadena.
         if ((texto[i] < '0' || texto[i] > '9') && (texto[i] < 'A' || texto[i] > 'F'))  // Si no está entre 0-9 ni A-F.
         {
@@ -36,10 +37,10 @@ bool validacion(string texto) { // Comprueba que la cadena contiene solo dígito
     }
     return true;
 }
-int stringAInt(string texto, int base){ // Convierte una cadena de texto a un número entero según la base especificada.
+int stringAIntConvert(string texto, int base){ // Convierte una cadena de texto a un número entero según la base especificada.
   int resultado = 0; // Inicializa el resultado a cero.
   for (int i = 0; i < texto.length(); i++){ // Recorre cada carácter en la cadena de texto.
-     resultado = resultado * base + charAnum(texto[i]); // Multiplica el resultado actual por la base y suma el valor numérico del carácter actual para construir el número entero final.
+     resultado = resultado * base + charAnumConvert(texto[i]); // Multiplica el resultado actual por la base y suma el valor numérico del carácter actual para construir el número entero final.
     
   }
   return resultado; // Devuelve el número entero convertido.
@@ -75,7 +76,7 @@ void hexadecimal(int numero){ // Convierte un número a hexadecimal utilizando e
   cout <<"El hexadecimal del numero es: " ; // Imprime un mensaje explicativo antes de mostrar el resultado.
   for (int i = 0; i < residuos.size(); i++) // Recorre el vector de residuos para imprimir cada dígito hexadecimal.
   {
-    cout << numAchar(residuos [i]); // Muestra el dígito hexadecimal actual. En una implementación completa, se debería convertir los valores de 10 a 15 a las letras A-F para representar correctamente el sistema hexadecimal.
+    cout << numAcharConvert(residuos [i]); // Muestra el dígito hexadecimal actual. En una implementación completa, se debería convertir los valores de 10 a 15 a las letras A-F para representar correctamente el sistema hexadecimal.
   }
 }
 void  binario (int numero){
@@ -93,7 +94,7 @@ void  binario (int numero){
     cout << residuos[i]; // Muestra el elemento actual del vector.
   }
 }
-int main(){
+int mainConvert(){
   int  opcion;
   string numero;
   cout << "Escoja una opcion: " << "\n" ;
@@ -107,19 +108,19 @@ int main(){
     cout<<"introduce el numero que quieres convertir a binario"<< "\n";
     cin >> numero;
     
-    binario(stringAInt(numero, 10));
+    binario(stringAIntConvert(numero, 10));
     break;
   case 2:
     cout<<"introduce el numero que quieres convertir hexadecimal"<< "\n";
     cin >> numero;
-    validacion(numero);
-    hexadecimal(stringAInt(numero, 10));
+    validacionConvert(numero);
+    hexadecimal(stringAIntConvert(numero, 10));
     break;
   case 3:
     cout<<"introduce el numero que quieres convertir octal"<< "\n";
     cin >> numero;
     
-    octal(stringAInt(numero, 10));
+    octal(stringAIntConvert(numero, 10));
     break;
   default:
     cout << "escoja una de las opciones";

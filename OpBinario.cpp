@@ -117,7 +117,7 @@ void restaBin (string Bin1, string Bin2){
   cout << endl;
 }
 
-void multiplicacion (string Bin1,string Bin2)
+void multiplicacionBin (string Bin1,string Bin2)
 { 
   if (!validacion(Bin1)|| !validacion(Bin2)){ // Comprueba que ambas entradas sean valores binarios.
     cout << "Solo se permiten 0s y 1s" << endl; // Mensaje si hay un carácter inválido.
@@ -140,7 +140,7 @@ void multiplicacion (string Bin1,string Bin2)
   cout << "El resultado de la multplicacion es: " << resultado <<endl;  // Mensaje final.
 }
 //*******<<<<<< */
-int main(){
+int mainBinario(){
   string Bin1, Bin2;
   int opciones;
   cout << "Seleccione operacion (1=suma, 2=resta, 3=multiplicacion): " << endl;
@@ -167,7 +167,7 @@ int main(){
     cin >> Bin1;
     cout << "Ingrese el segundo binario: " << endl;
     cin >> Bin2;
-    multiplicacion(Bin1, Bin2);
+    multiplicacionBin(Bin1, Bin2);
     break;
   default:
     cout << "Opcion invalida" << endl;

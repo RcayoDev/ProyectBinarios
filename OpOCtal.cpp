@@ -4,7 +4,7 @@
 #include <cstdarg>
 #include <algorithm>
 using namespace std;
-bool validacion(string texto) { // Comprueba que la cadena contiene solo dígitos octales.
+bool validacionOctal(string texto) { // Comprueba que la cadena contiene solo dígitos octales.
     for (int i = 0; i < texto.length(); i++) { // Recorre cada carácter de la cadena.
         if (texto[i] < '0' || texto[i] > '7')  // Verifica si el carácter no está entre 0 y 7.
         {
@@ -14,8 +14,8 @@ bool validacion(string texto) { // Comprueba que la cadena contiene solo dígito
     return true; // Si no se encuentran caracteres inválidos, devuelve verdadero.
 }
 
-void sumaBin (string Bin1, string Bin2){ 
-  if (!validacion(Bin1)|| !validacion(Bin2)){ // Valida que ambas cadenas sean octales.
+void sumaOctal (string Bin1, string Bin2){ 
+  if (!validacionOctal(Bin1)|| !validacionOctal(Bin2)){ // Valida que ambas cadenas sean octales.
     cout << "Solo se permiten numero octales" << endl; // Mensaje si hay un dígito inválido.
     return;
   }
@@ -44,7 +44,7 @@ void sumaBin (string Bin1, string Bin2){
   }
   cout << endl; // Salto de línea para una salida más clara.
 }
-string Opsuma (string Bin1, string Bin2) // Función auxiliar para sumar sin imprimir el resultado inmediato.
+string OpsumaOctal (string Bin1, string Bin2) // Función auxiliar para sumar sin imprimir el resultado inmediato.
 { 
     while (Bin1.length() < Bin2.length()) { // Alinea las cadenas con ceros a la izquierda.
       Bin1.insert(0, "0");  
@@ -70,8 +70,8 @@ string Opsuma (string Bin1, string Bin2) // Función auxiliar para sumar sin imp
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void restaBin (string Bin1, string Bin2){
-  if (!validacion(Bin1)|| !validacion(Bin2)){ // Valida que ambas cadenas sean octales.
+void restaOctal (string Bin1, string Bin2){
+  if (!validacionOctal(Bin1)|| !validacionOctal(Bin2)){ // Valida que ambas cadenas sean octales.
     cout << "Solo se permiten numero octales" << endl;
     return;
   }
@@ -116,9 +116,9 @@ void restaBin (string Bin1, string Bin2){
   cout << endl;
 }
 
-void multiplicacion (string Bin1,string Bin2)
+void multiplicacionOctal (string Bin1,string Bin2)
 { 
-  if (!validacion(Bin1)|| !validacion(Bin2)){ // Valida que ambas cadenas sean octales.
+  if (!validacionOctal(Bin1)|| !validacionOctal(Bin2)){ // Valida que ambas cadenas sean octales.
     cout << "Solo se permiten numero octales" << endl;
     return;
   }
@@ -135,13 +135,13 @@ void multiplicacion (string Bin1,string Bin2)
     }
     for (int k = 0; k < digito; k++)
     {
-      resultado = Opsuma(resultado, fila);
+      resultado = OpsumaOctal(resultado, fila);
     }
   }
   cout << "El resultado de la multplicacion es: " << resultado <<endl;  // Mensaje final.
 }
 //*******<<<<<< */
-int main(){
+int mainOctal(){
   string Bin1, Bin2;
   int opciones;
   cout << "Seleccione operacion (1=suma, 2=resta, 3=multiplicacion): " << endl;
@@ -154,21 +154,21 @@ int main(){
     cin >> Bin1;
     cout << "Ingrese el segundo binario: " << endl;
     cin >> Bin2;
-    sumaBin(Bin1, Bin2);
+    sumaOctal(Bin1, Bin2);
     break;
   case 2:
     cout << "Ingrese el primer binario: " << endl;
     cin >> Bin1;
     cout << "Ingrese el segundo binario: " << endl;
     cin >> Bin2;
-    restaBin(Bin1, Bin2);
+    restaOctal(Bin1, Bin2);
     break;
   case 3:
     cout << "Ingrese el primer binario: " << endl;
     cin >> Bin1;
     cout << "Ingrese el segundo binario: " << endl;
     cin >> Bin2;
-    multiplicacion(Bin1, Bin2);
+    multiplicacionOctal(Bin1, Bin2);
     break;
   default:
     cout << "Opcion invalida" << endl;
