@@ -32,7 +32,7 @@ void sumaBin (string Bin1, string Bin2){
     int total = (Bin1[i] - '0') + (Bin2[i] - '0') + carry ; // Suma los bits y el acarreo.
     resultado.push_back(total % 2); // El bit resultante es total mod 2.
     carry = total / 2;  // El acarreo es total / 2.
-    // Si la suma es 3, el resultado es 1 y el acarreo es 1.
+    //
   }
   if (carry ==1){ // Añade el último acarreo si existe.
     resultado.push_back(carry);
@@ -123,18 +123,18 @@ void multiplicacion (string Bin1,string Bin2)
     cout << "Solo se permiten 0s y 1s" << endl; // Mensaje si hay un carácter inválido.
     return;
   }
-  string resultado = "0";
-  string fila ;
+  string resultado = "0"; // Inicializa el resultado de la multiplicación como cero.
+  string fila ; // Almacena la fila de multiplicación actual.
   for (int i = Bin2.length()-1; i >=0 ; i--)
   {
     if ( Bin2[i] =='1') // Si el bit actual es 1, agrega una fila desplazada.
     {
-      fila = Bin1;
-      for (int j = 0; j < Bin2.length()-1-i; j++)
+      fila = Bin1; //<<<< Asigna el primer número a la fila.
+      for (int j = 0; j < Bin2.length()-1-i; j++)// Agrega ceros a la derecha según la posición del bit.
       {
         fila.push_back('0');
       }
-      resultado = Opsuma (resultado, fila);
+      resultado = Opsuma (resultado, fila);// Suma la fila al resultado acumulado.
     }
   }
   cout << "El resultado de la multplicacion es: " << resultado <<endl;  // Mensaje final.
